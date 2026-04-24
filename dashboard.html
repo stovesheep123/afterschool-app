@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <div class="sidebar">
+            <h2>School App</h2>
+            <p id="welcome"></p>
+            <p id="notification" style="color:red; font-weight:bold;"></p>
+
+            <button onclick="showSection('home')">Home</button>
+            <button onclick="showSection('chat')">Chat</button>
+            <button onclick="showSection('report')">Report</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <div class="main">
+
+            <div id="home" class="section">
+                <h1>Dashboard</h1>
+                <div id="teacherSection" class="role-section">Teacher Panel</div>
+                <div id="studentSection" class="role-section">Student Panel</div>
+                <div id="headmasterSection" class="role-section">
+
+                    <h2> Headmaster Panel</h2>
+
+                    <h3>👨‍👩‍👧 家族リンク</h3>
+
+                    <select id="linkStudent">
+                        <option value="">生徒を選択</option>
+                    </select>
+
+                    <select id="linkParent">
+                        <option value="">保護者を選択</option>
+                    </select>
+
+                    <br><br>
+                    <button onclick="linkParent()">リンクする</button>
+
+                </div>
+                <div id="parentSection" class="role-section">Parent Panel</div>
+            </div>
+
+            <div id="chat" class="section" style="display: none;">
+                <h1 style="color:white;">💬 Chat</h1>
+                <h3 id="chatWith">Chat</h3>
+
+                <select id="userSelect"></select>
+
+                <div id="chatBox"
+                    style="height: 300px; overflow-y: auto; background: white; padding: 10px; border-radius: 10px;">
+                </div>
+
+                <!-- 🔥 ADD THIS LINE HERE -->
+                <p id="typingIndicator" style="color: gray; margin: 5px 0;"></p>
+
+                <input type="text" id="messageInput" placeholder="Type message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+            <div id="report" class="section" style="display:none;">
+
+                <h2>指導報告書</h2>
+
+                <!-- 🔥 FORM START -->
+                <div id="reportForm">
+
+                    <!-- 教師 -->
+                    <select id="teacher_name">
+                        <option value="">担当講師</option>
+                    </select><br><br>
+
+                    <!-- 生徒 -->
+                    <select id="student_name">
+                        <option value="">生徒氏名</option>
+                    </select><br><br>
+
+                    <!-- 教科 -->
+                    <select id="subject">
+                        <option value="">教科</option>
+                        <option value="数学">数学</option>
+                        <option value="英語">英語</option>
+                        <option value="理科">理科</option>
+                        <option value="国語">国語</option>
+                    </select><br><br>
+
+                    <!-- 日付 -->
+                    <input id="date" placeholder="日付 (2026/04/21)"><br><br>
+
+                    <!-- 理解度 -->
+                    <select id="understanding">
+                        <option value="">理解度</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select><br><br>
+
+                    <!-- 今日やったこと -->
+                    <textarea id="content" placeholder="今日やったこと"></textarea><br><br>
+
+                    <!-- 宿題 -->
+                    <textarea id="homework" placeholder="宿題"></textarea><br><br>
+
+                    <button onclick="saveReport()">保存</button>
+
+                </div>
+                <!-- 🔥 FORM END -->
+
+                <hr>
+
+                <!-- 👇 THIS STAYS ALWAYS VISIBLE -->
+                <div id="reportList"></div>
+
+            </div>
+
+
+            <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+            <script src="js/supabase.js"></script>
+            <script src="js/dashbaord.js"></script>
+            <script src="js/report.js"></script>
+
+</body>
+
+</html>
