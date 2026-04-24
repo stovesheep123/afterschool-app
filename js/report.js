@@ -136,21 +136,18 @@ async function displayReports() {
   }
 
   if (role === "parent") {
+    const parent = users.find(u => u.username === currentUser);
 
-    // 👤 find current parent user
-    const me = users.find(u => u.username === currentUser);
+    filtered = reports.filter(r => {
+      const student = users.find(u => u.username === r.student_name);
 
-    if (!me) return;
-
-    // 👨‍👩‍👧 find children
-    const myChildren = users.filter(u => u.parent_id === me.id);
-
-    const childNames = myChildren.map(c => c.username);
-
-    filtered = reports.filter(r =>
-      childNames.includes(r.student_name) &&
-      r.status === "approved"
-    );
+      return (
+        student &&
+        parent &&
+        student.parent_id === parent.id &&   // 🔥 KEY FIX
+        r.status === "approved"
+      );
+    });
   }
 
   // 🔥 DISPLAY
