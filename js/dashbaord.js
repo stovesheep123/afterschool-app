@@ -326,24 +326,40 @@ if (msg.to_user?.toLowerCase() === currentUser?.toLowerCase()) {
 }
 // ================= LINK PARENT =================
 async function linkParent() {
+
   const studentId = document.getElementById("linkStudent").value;
   const parentId = document.getElementById("linkParent").value;
 
-  console.log("Student ID:", studentId);
-  console.log("Parent ID:", parentId);
-
   if (!studentId || !parentId) {
-    alert("選択してください");
+    alert("生徒と保護者を選択してください");
     return;
   }
 
+  // 🔥 get parent username
+  const { data: parentData, error: parentError } = await supabaseClient
+    .from("users")
+    .select("username")
+    .eq("id", parentId)
+    .single();
+
+  if (parentError) {
+    console.log(parentError);
+    alert("親の取得エラー");
+    return;
+  }
+
+  const parentUsername = parentData.username;
+
+  // 🔥 update student with parent_username
   const { error } = await supabaseClient
     .from("users")
-    .update({ parent_id: parentId })
+    .update({
+      parent_username: parentUsername
+    })
     .eq("id", studentId);
 
   if (error) {
-    console.log("ERROR:", error);
+    console.log(error);
     alert("リンク失敗");
     return;
   }

@@ -136,19 +136,18 @@ async function displayReports() {
   }
 
   if (role === "parent") {
-    const parent = users.find(u => u.username === currentUser);
 
-    filtered = reports.filter(r => {
-      return (
-        parent &&
-        r.student_id &&
-        users.some(u =>
-          u.id === r.student_id &&
-          u.parent_id === parent.id
-        ) &&
-        r.status === "approved"
-      );
-    });
+    // 👇 find all children of this parent
+    const children = users
+      .filter(u => u.parent_username === currentUser)
+      .map(u => u.username);
+
+    console.log("👨‍👩‍👧 Children:", children);
+
+    filtered = reports.filter(r =>
+      children.includes(r.student_name) &&
+      r.status === "approved"
+    );
   }
 
   // 🔥 DISPLAY
