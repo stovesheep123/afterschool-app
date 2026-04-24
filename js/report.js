@@ -139,12 +139,13 @@ async function displayReports() {
     const parent = users.find(u => u.username === currentUser);
 
     filtered = reports.filter(r => {
-      const student = users.find(u => u.username === r.student_name);
-
       return (
-        student &&
         parent &&
-        student.parent_id === parent.id &&   // 🔥 KEY FIX
+        r.student_id &&
+        users.some(u =>
+          u.id === r.student_id &&
+          u.parent_id === parent.id
+        ) &&
         r.status === "approved"
       );
     });
@@ -260,6 +261,7 @@ async function approveReport(id, student_name) {
     await supabaseClient.from("messages").insert([{
       from_user: approver,
       to_user: student.parent_username,
+      student_id: student.id,
       message: `📄 ${student_name}のレポートが承認されました`
     }]);
   }
